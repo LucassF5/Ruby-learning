@@ -22,8 +22,11 @@ puts "\nArray Original\n #{array}"
 
 puts "\nNovo Array\n #{new_array}"
 
-new_array = array.map! do |map_a| # .map! sobrescreve o valor do array original
+new_array = new_array.map! do |map_a| # .map! sobrescreve o valor do array original
     map_a * 10
 end
 
-puts "\n'Novo array' com os valores multiplicados por 10"
+puts "\n'Novo array' com os valores multiplicados por 10\n"
+
+puts "New Array = #{new_array}"
+puts "Array inicial: #{array}"
