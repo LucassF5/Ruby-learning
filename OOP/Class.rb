@@ -24,4 +24,27 @@ puts pessoa1 # Name: Lucas, Age: 23
 
 pessoa2 = Person.new("João", 25)
 
-Person.people # People: 2
+# Person.people # People: 2
+
+
+class Pessoa
+  attr_accessor :name, :age
+  # attr_reader :name
+  # attr_writer :name
+
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+
+end
+
+pessoa3 = Pessoa.new("Maria", 40)
+puts pessoa3.name # Maria
+
+# attr_accessor: creates a getter and a setter for the instance variable
+# attr_reader: creates a getter for the instance variable
+# attr_writer: creates a setter for the instance variable
+
+# attr methods are used to create getter and setter methods for instance variables
+# It's a way to avoid writing getter and setter methods manually
