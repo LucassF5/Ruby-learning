@@ -1,36 +1,41 @@
 class Biblioteca
+  # attr_reader :livros
+
   def initialize
-    @livros = {}
+    @banco_de_arquivos = BancoDeArquivos.new
   end
 
   def adiciona(livro)
-    @livros[livro.categoria] ||= []
-    @livros[livro.categoria] << livro
-  end
-
-  def livros
-    @livros.values.flatten
+    salva(livro){
+      livros << livro
+    }
   end
 
   def livros_por_categoria(categoria)
-    @livros[categoria].each do |livros|
-      # para cada valor de categoria da instâmcia de biblioteca inicia um bloco
-      yield livros if block_given?
-      # Se o bloco foi passado, executa o bloco, caso contrário, não faz nada
-    end
+    livros.select { |livro| livro.categoria == categoria}
   end
 
+  def livros
+    @livros ||= @banco_de_arquivos.carrega
+  end
+
+  def salva(livro)
+    @banco_de_arquivos.salva(livro)
+    yield
+  end
 end
 
-require File.expand_path("livro", File.dirname(__FILE__))
-livro = Livro.new("Lucas Franco", 123, 250, 50, :testes)
-livro2 = Livro.new("Maria", 234, 300, 79.9, :acao)
-livro3 = Livro.new("Lua", 123, 300, 64.9, :testes)
+# require File.expand_path("livro", File.dirname(__FILE__))
+# livro = Livro.new("Lucas Franco", 123, 250, 50, :testes)
+# livro2 = Livro.new("Maria", 234, 300, 79.9, :acao)
+# livro3 = Livro.new("Lua", 123, 300, 64.9, :testes)
 
 
 biblioteca = Biblioteca.new
-biblioteca.adiciona livro
-biblioteca.adiciona livro2
-biblioteca.adiciona livro3
+# biblioteca.adiciona livro
+# biblioteca.adiciona livro2
+# biblioteca.adiciona livro3
 
-biblioteca.livros_por_categoria :acao
+# biblioteca.livros_por_categoria :acao
+biblioteca.adiciona Livro.new "TDD", "Mauricio Aniche", "123454",
+247, 69.9, :testes
