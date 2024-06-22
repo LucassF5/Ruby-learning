@@ -3,6 +3,8 @@ require File.expand_path("loja_virtual/lib/formatador_moeda")
 
 class CD < Midia
 
+  attr_reader :titulo
+
   def initialize(titulo, valor, categoria)
     super()
     @titulo = titulo
