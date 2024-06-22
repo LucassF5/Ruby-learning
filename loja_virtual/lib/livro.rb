@@ -1,7 +1,10 @@
 require File.expand_path("loja_virtual/lib/midia")
+require File.expand_path("loja_virtual/lib/formatador_moeda")
 
 class Livro < Midia
   attr_reader :categoria, :autor
+
+  include FormatadorMoeda # Incluindo Mixin
 
   def initialize(titulo, autor, isbn="1", numero_de_paginas, valor, categoria)
     @titulo = titulo
@@ -10,6 +13,7 @@ class Livro < Midia
     @numero_de_paginas = numero_de_paginas
     @valor = valor
     @categoria = categoria
+    @desconto = 0.15
   end
 
   def to_s
@@ -68,10 +72,5 @@ end
 hotd = Livro.new("HOUSE OF THE DRAGON", "TOLKIEN", 123444, 800, 100.99, :acao)
 p hotd.valor
 p hotd.titulo
-
-
-require File.expand_path("loja_virtual/lib/dvd")
-
-xuxa = DVD.new("XUXA", 20.90, :kids)
-puts xuxa.valor
-puts xuxa.titulo
+p hotd.valor_com_desconto.round(2)
+puts hotd.valor_formatado
