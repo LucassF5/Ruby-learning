@@ -1,26 +1,41 @@
+require File.expand_path("loja_virtual/lib/banco_de_arquivos")
+require File.expand_path("loja_virtual/lib/midia")
+require File.expand_path("loja_virtual/lib/dvd")
+
 class Biblioteca
-  # attr_reader :livros
+
+  include Enumerable
 
   def initialize
     @banco_de_arquivos = BancoDeArquivos.new
   end
 
-  def adiciona(livro)
-    salva(livro){
-      livros << livro
+  def adiciona(midia)
+    salva(midia) do
+      midias << midia
+    end #if midia.kind_of? Midia
+  end
+
+  def midias_por_categoria(categoria)
+    midias.select { |midia|
+      midia.categoria == categoria if midia.respond_to? :categoria
     }
   end
 
-  def livros_por_categoria(categoria)
-    livros.select { |livro| livro.categoria == categoria}
+  def midias
+    @midias ||= @banco_de_arquivos.carrega
   end
 
-  def livros
-    @livros ||= @banco_de_arquivos.carrega
+  # método each que possibilita que os outros métodos
+  # do módulo Enumerable funcionem em uma instância de Biblioteca
+  def each
+    midias.each { |midia| yield midia }
   end
 
-  def salva(livro)
-    @banco_de_arquivos.salva(livro)
+  private
+
+  def salva(midia)
+    @banco_de_arquivos.salva(midia)
     yield
   end
 end
@@ -37,5 +52,11 @@ biblioteca = Biblioteca.new
 # biblioteca.adiciona livro3
 
 # biblioteca.livros_por_categoria :acao
-biblioteca.adiciona Livro.new "TDD", "Mauricio Aniche", "123454",
-247, 69.9, :testes
+# biblioteca.adiciona Livro.new "TDD", "Mauricio Aniche", "123454",
+# 247, 69.9, :testes
+
+windows = DVD.new "Windows 7 for Dummies", 98.9, :sistemas_operacionais
+biblioteca.adiciona windows
+biblioteca.each do |midia|
+  p midia.titulo # => Windows 7 for Dummies
+end
