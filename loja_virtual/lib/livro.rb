@@ -1,6 +1,7 @@
-class Livro
-  attr_accessor :valor # Implementa getters e setters
-  attr_reader :categoria, :autor, :titulo
+require File.expand_path("loja_virtual/lib/midia")
+
+class Livro < Midia
+  attr_reader :categoria, :autor
 
   def initialize(titulo, autor, isbn="1", numero_de_paginas, valor, categoria)
     @titulo = titulo
@@ -63,3 +64,14 @@ end
 
 # O livro3 não foi adicionado ao conjunto de livros, pois o ISBN dele é igual ao do livro1
 # Como os métodos eql? e hash foram sobrescritos, o Set não adiciona o livro3 ao conjunto
+
+hotd = Livro.new("HOUSE OF THE DRAGON", "TOLKIEN", 123444, 800, 100.99, :acao)
+p hotd.valor
+p hotd.titulo
+
+
+require File.expand_path("loja_virtual/lib/dvd")
+
+xuxa = DVD.new("XUXA", 20.90, :kids)
+puts xuxa.valor
+puts xuxa.titulo
