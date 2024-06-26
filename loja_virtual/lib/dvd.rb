@@ -3,20 +3,20 @@ require File.expand_path("loja_virtual/lib/formatador_moeda")
 
 class DVD < Midia
 
-  # include FormatadorMoeda
+  extend FormatadorMoeda
   attr_reader :titulo
 
   #self indicando uma referência a própria classe, à instância da classe
-  def self.formata_moeda(*variaveis_e_metodos)
-    variaveis_e_metodos.each do |name|
-      define_method("#{name}_formatado") do
-        valor= respond_to?(name) ? send(name) : instance_variable_get("@#{name}")
-      "R$ #{valor}"
-      end
-    end
-  end
+  # def self.formata_moeda(*variaveis_e_metodos)
+  #   variaveis_e_metodos.each do |name|
+  #     define_method("#{name}_formatado") do
+  #       valor= respond_to?(name) ? send(name) : instance_variable_get("@#{name}")
+  #     "R$ #{valor}"
+  #     end
+  #   end
+  # end
 
-  formata_moeda :valor, :valor_com_desconto
+  formata_moeda :valor, :valor_com_desconto # Invocando o método formata_moeda e passando os parâmetros
 
   puts "O self aqui é: #{self}"
   puts "O self aqui é do tipo: #{self.class}"
